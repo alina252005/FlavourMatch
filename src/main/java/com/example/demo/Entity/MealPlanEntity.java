@@ -3,7 +3,9 @@ package com.example.demo.Entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,6 +23,8 @@ public class MealPlanEntity {
     @Column(name="recipeid",unique = true,nullable = false)
     private int recipeid;
     @Column(name="CreatedDate",nullable = false)
-    private Date createdDate;
+    private LocalDate createdDate;
+    @Column(name ="isActive",nullable = false   )
+    private boolean is_active;
 
 }

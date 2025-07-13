@@ -22,6 +22,8 @@ public class UserDTO implements Serializable {
     private String email;
     @Size(min=6,message = "Password must be at least 6 characters long")
     private  String password;
+    @Size(min=3,message = "Username shoud be at least 3 charcates long")
+    private String username;
     @Size(min=6,message = "Password must be at least 6 characters long")
     private  String confirmPassword;
     @Size(min=3,message = "First Name shoud be at least 3 charcates long")
@@ -34,21 +36,21 @@ public class UserDTO implements Serializable {
      private int height;
      private Role role;
 
-     public UserEntity toEntity()
-     {
-return UserEntity.builder()
-        .email(email)
-        .password(password)
-        .confirmPassword(confirmPassword)
-        .firstName(firstName)
-        .lastName(lastName)
-        .age(age)
-        .weigth(weigth)
-        .targetWeight(targetWeight)
-        .height(height)
-        .role(role)
-        .build();
-     }
+    public UserEntity toEntity() {
+        return UserEntity.builder()
+                .email(email)
+                .password(password)
+                .username(username)
+                .confirmPassword(confirmPassword)
+                .firstName(firstName)
+                .lastName(lastName)
+                .age(age)
+                .weight(weigth)
+                .targetWeight(targetWeight)
+                .height(height)
+                .role(role)
+                .build();
+    }
 
 
 
