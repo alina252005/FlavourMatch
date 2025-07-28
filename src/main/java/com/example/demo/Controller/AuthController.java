@@ -56,7 +56,7 @@ public class AuthController {
         }
         if(user.getPassword().length()<6)
         {
-            // Check if password is less than 6 characters
+
             return "Error: Password must be at least 6 characters long!";
         }
         if(userRepository.existsByEmail(user.getEmail())) {
