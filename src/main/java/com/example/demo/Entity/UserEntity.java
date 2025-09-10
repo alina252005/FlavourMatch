@@ -30,7 +30,7 @@ public class UserEntity {
     @Column(name="username",unique = true)
     private String username;
 
-    @Column(name="confirm_password")
+@Column(name="confirm_password")
     private  String confirmPassword;
 
     @Column(name="first_name")
@@ -50,7 +50,8 @@ public class UserEntity {
 
     @Column(name="height",nullable = false)
     private int height;
-    @Enumerated(EnumType.ORDINAL)
+
+    @Enumerated(EnumType.STRING)
     @Column(name="role")
     private Role role;
 

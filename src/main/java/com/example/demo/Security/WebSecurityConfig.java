@@ -1,5 +1,6 @@
 package com.example.demo.Security;
 
+import com.example.demo.Entity.Role;
 import com.example.demo.Service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -52,10 +53,12 @@ public class WebSecurityConfig {
                 )
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/api/auth/**", "/api/test/all","/api/auth/signup","/meals/**","/meals/autocomplete","/meals/filterByNutrients","/meals/filterByCuisine","/meals/filterByType").permitAll()
-                                .anyRequest()
-                                .authenticated()// Use 'requestMatchers' instead of 'antMatchers'.authenticated()
-                );
+                                .requestMatchers("/api/auth/**", "/api/test/all", "/api/auth/signup", "/api/auth/signin").permitAll()
+                                .requestMatchers("/meals/**","/mealplan/**").hasRole(Role.CUSTOMER.toString())  // doar ROLE_CUSTOMER
+                                .anyRequest().fullyAuthenticated()  // restul endpoint-urilor
+                )
+
+        ;
         // Add the JWT Token filter before the UsernamePasswordAuthenticationFilter
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();

@@ -1,5 +1,6 @@
 package com.example.demo.Security;
 
+import com.example.demo.Entity.UserEntity;
 import com.example.demo.Service.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -7,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -30,9 +32,17 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
-        System.out.println("Filtering request: " + request.getRequestURI());
+        String path = request.getRequestURI();
+        System.out.println("Filtering request: " + path);
+
+        // Skip JWT validation for public endpoints
+        if (path.startsWith("/api/auth/") || path.equals("/api/test/all")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         try {
+
             String jwt = parseJwt(request);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
                 String username = jwtUtils.getUsernameFromToken(jwt);
@@ -49,6 +59,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
+                    authentication.getAuthorities().forEach(authority -> System.out.println(authority.getAuthority()));
                     System.out.println("User authenticated");
                 }
             } else {
@@ -57,7 +68,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         } catch (Exception e) {
             System.out.println("Cannot set user authentication: " + e.getMessage());
         }
-
+        System.out.println("Response status before chain: " + response.getStatus());
         filterChain.doFilter(request, response);
     }
 

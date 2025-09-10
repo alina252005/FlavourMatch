@@ -1,11 +1,7 @@
 package com.example.demo.Controller;
 
 import com.example.demo.DTO.RecipeAutocompleteResponse;
-import com.example.demo.Entity.MealPlanEntity;
-import com.example.demo.Repository.MealPlanRepository;
 import com.example.demo.Service.RecepiesService;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,15 +16,15 @@ import java.util.List;
 public class MealController {
 private final RecepiesService recepiesService;
 
+
     public MealController(RecepiesService recepiesService) {
         this.recepiesService = recepiesService;
-    }
-
-    @GetMapping("/allRecepies")
-    public Mono<String> getAllRecepies(
+    }@GetMapping("/allRecepies")
+    public ResponseEntity<String> getAllRecepies(
             @RequestParam(defaultValue = "0") int offset,
             @RequestParam(defaultValue = "10") int number) {
-        return recepiesService.getRecepies(offset,number);
+        String result=recepiesService.getRecepies(offset, number).block();
+        return  ResponseEntity.ok(result);
 
     }
 @GetMapping("/autocomplete")
@@ -39,7 +35,7 @@ private final RecepiesService recepiesService;
     return  ResponseEntity.ok(recepiesService.autocompleteRecipes(query,number));
 }
 @GetMapping("/filterByNutrients")
-    public Mono<String> filterByNutrients(
+    public ResponseEntity<String> filterByNutrients(
         @RequestParam(required = false)Integer minCarb,
         @RequestParam(required = false)Integer maxCarb,
         @RequestParam(required = false)Integer minProtein,
@@ -53,34 +49,37 @@ private final RecepiesService recepiesService;
 
         )
 {
-    return recepiesService.filterRecipesByNutrients(minCarb,maxCarb,minProtein,maxProtein,minCalories,maxCalories,minFat,maxFat,offset,number);
+    String result=recepiesService.filterRecipesByNutrients(minCarb,maxCarb,minProtein,maxProtein,minCalories,maxCalories,minFat,maxFat,offset,number).block();
+    return ResponseEntity.ok(result);
 }
 @GetMapping("/filterByCuisine")
-    public Mono<String> filterByCuisine(
+    public ResponseEntity<String> filterByCuisine(
             @RequestParam String cuisine,
             @RequestParam(defaultValue = "0") int offset,
             @RequestParam(defaultValue = "10") int number
 )
 {
-    return recepiesService.filterRecipesByCuisine(cuisine,offset,number);
+    String result=recepiesService.filterRecipesByCuisine(cuisine,offset,number).block();
+    return ResponseEntity.ok(result);
 }
-@GetMapping("/filterByType")
-    public Mono<String> filterByType(
+    @GetMapping("/filterByType")
+    public ResponseEntity<String> filterByType(
             @RequestParam String type,
-            @RequestParam(defaultValue ="0") int offset,
-            @RequestParam(defaultValue ="10")int number
-
-)
-{
-    return recepiesService.filterRecipesByType(type,offset,number);
-}
+            @RequestParam(defaultValue = "0") int offset,
+            @RequestParam(defaultValue = "10") int number
+    ) {
+        String result = recepiesService.filterRecipesByType(type, offset, number).block();
+        return ResponseEntity.ok(result);
+    }
 @GetMapping("/filterByIntolerance")
-    public Mono<String> filterByIntolerance(
+    public ResponseEntity<String> filterByIntolerance(
             @RequestParam String intolerance,
             @RequestParam(defaultValue = "0")int offset,
             @RequestParam(defaultValue = "10") int number
 )
 {
-    return  recepiesService.filterRecepiesByIntollerance(intolerance,offset,number);
+    String result=recepiesService.filterRecepiesByIntollerance(intolerance,offset,number).block();
+    return ResponseEntity.ok(result);
+
 }
 }
