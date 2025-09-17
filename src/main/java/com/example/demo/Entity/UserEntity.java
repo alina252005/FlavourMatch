@@ -30,9 +30,6 @@ public class UserEntity {
     @Column(name="username",unique = true)
     private String username;
 
-@Column(name="confirm_password")
-    private  String confirmPassword;
-
     @Column(name="first_name")
     private String firstName;
 

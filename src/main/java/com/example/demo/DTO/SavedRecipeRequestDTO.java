@@ -3,7 +3,7 @@ package com.example.demo.DTO;
 import lombok.Data;
 
 @Data
-public class SavedRecipeRequest {
+public class SavedRecipeRequestDTO {
     private Integer externalId;
     private Integer userId;
 }

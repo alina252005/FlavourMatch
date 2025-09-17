@@ -24,8 +24,6 @@ public class UserDTO implements Serializable {
     private  String password;
     @Size(min=3,message = "Username shoud be at least 3 charcates long")
     private String username;
-    @Size(min=6,message = "Password must be at least 6 characters long")
-    private  String confirmPassword;
     @Size(min=3,message = "First Name shoud be at least 3 charcates long")
     private String firstName;
     @Size(min=3,message = "First Name shoud be at least 3 charcates long")
@@ -41,7 +39,6 @@ public class UserDTO implements Serializable {
                 .email(email)
                 .password(password)
                 .username(username)
-                .confirmPassword(confirmPassword)
                 .firstName(firstName)
                 .lastName(lastName)
                 .age(age)

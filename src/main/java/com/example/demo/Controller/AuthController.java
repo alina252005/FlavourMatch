@@ -46,14 +46,11 @@ public class AuthController {
             // Check if the username is already taken
             return "Error: Username is already taken!";
         }
-        if(user.getPassword() == null || user.getConfirmPassword() == null) {
+        if (user.getPassword() == null) {
             // Check if password or confirm password is null
             return "Error: Password and Confirm Password cannot be null!";
         }
-        if(!user.getPassword().equals(user.getConfirmPassword()))
-        {
-            return "Error: Passwords do not match!";
-        }
+
         if(user.getPassword().length()<6)
         {
 
@@ -68,7 +65,7 @@ public class AuthController {
         newUser.setUsername(user.getUsername());
         newUser.setPassword(encoder.encode(user.getPassword()));
         newUser.setAge(user.getAge());
-        newUser.setConfirmPassword(encoder.encode(user.getConfirmPassword()));
+
         newUser.setEmail(user.getEmail());
         newUser.setRole(user.getRole());
         newUser.setFirstName(user.getFirstName());
